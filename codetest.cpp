@@ -1,87 +1,73 @@
 #include <bits/stdc++.h>
+#include <ctime>
 
 using namespace std;
 
 // Your existing code (Istorage, FileManager, SaltGenerator, IHash, Hasher, IValidator, PasswordValidator, IuserService, UserService) goes here...
 
-// Add this test function
-void test() {
-    // Test FileManager
-    FileManager fm;
-    fm.addUser("testUser", "hashedPassword", "salt");
-    assert(fm.userExists("testUser") == true);
-    assert(fm.userExists("nonExistentUser") == false);
+// Function to run a single test case
+bool run_test(FILE *file, int test_case_num, UserService &userService) {
+    char username[256], password[256], expected[256];
 
-    auto [exists, hashedPassword, salt] = fm.getUserInfo("testUser");
-    assert(exists == true);
-    assert(hashedPassword == "hashedPassword");
-    assert(salt == "salt");
+    // Read test case from file
+    if (fscanf(file, "%s %s %s", username, password, expected) != 3) {
+        if (feof(file)) {
+            return false; // End of file
+        }
+        printf("Test case %d: Error reading dataset file\n", test_case_num);
+        return false;
+    }
 
-    // Test Hasher
-    Hasher hasher("password", "salt");
-    string hashed = hasher.hashPassword();
-    assert(!hashed.empty());
+    // Determine the operation based on the expected result
+    if (strcmp(expected, "success") == 0) {
+        // Test registration
+        userService.RegisterUser(username, password);
+        printf("Test case %d: Registration for %s completed\n", test_case_num, username);
+        return true;
+    } else {
+        // Test login
+        bool result = userService.LoginUser(username, password);
+        bool expected_result = (strcmp(expected, "true") == 0);
 
-    // Test PasswordValidator
-    PasswordValidator validator;
-    assert(validator.validate("ValidPass1!") == true);
-    assert(validator.validate("invalid") == false);
-
-    // Test UserService
-    UserService userService;
-    userService.RegisterUser("testUser2", "ValidPass1!");
-    assert(userService.LoginUser("testUser2", "ValidPass1!") == true);
-    assert(userService.LoginUser("testUser2", "WrongPass1!") == false);
-
-    cout << "All tests passed!" << endl;
+        if (result == expected_result) {
+            printf("Test case %d: Passed\n", test_case_num);
+            return true;
+        } else {
+            printf("Test case %d: Failed, expected %s, got %s\n", test_case_num, expected, result ? "true" : "false");
+            return false;
+        }
+    }
 }
 
-int main(int argc, char* argv[]) {
-    if (argc > 1 && string(argv[1]) == "--test") {
-        test();
-        return 0;
+int main() {
+    FILE *file = fopen("testcase.txt", "r");
+    if (file == NULL) {
+        perror("Error opening testcase file");
+        return 1;
     }
 
     UserService userService;
-    FileManager fileManager;
+    int test_case_num = 0;
+    int passed = 0, failed = 0;
 
-    int choice;
-    string username, password;
-
+    printf("Running tests...\n");
+    clock_t start_time = clock();
     while (true) {
-        cout << "\n1. Register\n2. Login\n3. Exit\nChoose an option: ";
-        cin >> choice;
-        if (!(cin >> choice)) {
-            cout << "Invalid input! Please enter a number.\n";
-            cin.clear(); // Clear error flag
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-            continue;
-        }
-
-        if (choice == 1) {
-            cout << "Enter username: ";
-            cin >> username;
-            bool test = true;
-            while (test) {
-                cout << "Enter password: ";
-                cin >> password;
-                PasswordValidator v;
-                if (v.validate(password)) { test = false; }
-            }
-            userService.RegisterUser(username, password);
-        } else if (choice == 2) {
-            cout << "Enter username: ";
-            cin >> username;
-            cout << "Enter password: ";
-            cin >> password;
-            userService.LoginUser(username, password);
-        } else if (choice == 3) {
-            cout << "Goodbye!\n";
-            break;
+        test_case_num++;
+        if (!run_test(file, test_case_num, userService)) {
+            if (feof(file)) break; // End of file
+            failed++;
         } else {
-            cout << "Invalid choice, try again!\n";
+            passed++;
         }
     }
+    clock_t end_time = clock();
 
-    return 0;
+    fclose(file);
+    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+    printf("\nTotal tests: %d | Passed: %d | Failed: %d\n", passed + failed, passed, failed);
+    printf("Execution time: %.2f seconds\n", elapsed_time);
+
+    return (failed == 0) ? 0 : 1;
 }
