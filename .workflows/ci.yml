@@ -22,5 +22,5 @@ jobs:
 
     - name: Compile and run tests
       run: |
-        g++ -std=c++11 your_code.cpp -o your_program
-        ./your_program --test
+        g++ -std=c++11 codetest.cpp -o codetest
+        ./codetest --test
