@@ -1,0 +1,7 @@
+testUser ValidPass1! success
+testUser ValidPass1! true
+testUser WrongPass1! false
+testUser2 ValidPass2! success
+testUser2 ValidPass2! true
+testUser2 WrongPass2! false
+nonExistentUser SomePass! false
