@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "main.cpp"
+#include "projetc++.cpp"
 
 TEST(UserServiceTest, RegisterUserTest) {
     UserService userService;
