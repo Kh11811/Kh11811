@@ -1,29 +1,17 @@
-name: C++ CI
+cmake_minimum_required(VERSION 3.10)
+project(UserService)
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+set(CMAKE_CXX_STANDARD 17)
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+add_executable(UserService main.cpp)
 
-    steps:
-    - uses: actions/checkout@v2
+# Add Google Test
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+FetchContent_MakeAvailable(googletest)
 
-    - name: Set up CMake
-      uses: actions/setup-cmake@v1
-
-    - name: Create build directory
-      run: mkdir -p build
-
-    - name: Configure CMake
-      run: cmake -S . -B build
-
-    - name: Build the project
-      run: cmake --build build
-
-    - name: Run tests
-      run: ./build/UserService
+add_executable(UserServiceTest test.cpp)
+target_link_libraries(UserServiceTest gtest_main)
