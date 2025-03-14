@@ -1,29 +1,33 @@
-name: C++ CI
+name: Test projetc_fv  # The name of the workflow, visible in the GitHub Actions tab.
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  push: # Trigger the workflow whenever code is pushed to the repository.
+    branches:
+      - main # Runs only if changes are pushed to the 'main' branch.
+  pull_request: # Trigger the workflow when a pull request is created or updated.
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test: # The name of the job.
+    runs-on: ubuntu-latest # Specifies the virtual machine environment for the job.
 
     steps:
-    - uses: actions/checkout@v2
+      # Step 1: Checkout the repository code
+      - name: Checkout code # Descriptive name for the step.
+        uses: actions/checkout@v3 # Uses a prebuilt GitHub Action to clone the repo into the VM.
 
-    - name: Set up CMake
-      uses: actions/setup-cmake@v1
+      # Step 2: Install the GCC compiler
+      - name: Install GCC # Install the GNU Compiler Collection required for building C programs.
+        run: sudo apt-get install -y gcc # Installs GCC using the system's package manager.
 
-    - name: Create build directory
-      run: mkdir -p build
+      # Step 3: Compile the C program
+      - name: Build the program # Compile the 'projetc_fv.c' file into an executable.
+        run: gcc -o test test.cpp # Uses GCC to create an executable named 'sum' from the source code file 'sum.c'.
 
-    - name: Configure CMake
-      run: cmake -S . -B build
+      # Step 4: Run the compiled program
+      - name: Run the test # Executes the compiled C program to perform the tests.
+        run: ./test # Runs the 'projetc_fv' executable, which performs its logic and outputs the results.
 
-    - name: Build the project
-      run: cmake --build build
-
-    - name: Run tests
-      run: ./build/UserServiceTest
+      # Step 5: Check for test failures
+      - name: Check test result # Fail the job if the test results are not as expected.
+        if: failure() # This step runs only if the previous step (Run the test) fails.
+        run: exit 1 # Explicitly fails the job by exiting with a non-zero status code.
