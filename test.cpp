@@ -208,8 +208,51 @@ public:
         }
     }
 };
+void addAndVerifyUsers(FileManager& fileManager, const vector<tuple<string, string, string>>& testCases) {
+    for (const auto& [username, hashedPassword, salt] : testCases) {
+        cout << "Adding user: " << username << endl;
 
+        // Add the user
+        fileManager.addUser(username, hashedPassword, salt);
 
+        // Verify if the user was added
+        auto [exists, storedHashedPassword, storedSalt] = fileManager.getUserInfo(username);
+
+        if (exists) {
+            cout << "User " << username << " added successfully!" << endl;
+            cout << "Stored Hashed Password: " << storedHashedPassword << endl;
+            cout << "Stored Salt: " << storedSalt << endl;
+        } else {
+            cout << "Error: User " << username << " was not added!" << endl;
+        }
+
+        cout << "----------------------------------------" << endl;
+    }
+}
+vector<tuple<string, string, string>> readTestCases(const string& filename) {
+    vector<tuple<string, string, string>> testCases;
+    ifstream file(filename);
+
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << endl;
+        return testCases;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string username, hashedPassword, salt;
+
+        if (getline(ss, username, ',') &&
+            getline(ss, hashedPassword, ',') &&
+            getline(ss, salt, ',')) {
+            testCases.emplace_back(username, hashedPassword, salt);
+        }
+    }
+
+    file.close();
+    return testCases;
+}
 int main() {
     FileManager fileManager;
 
