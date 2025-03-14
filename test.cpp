@@ -1,20 +1,17 @@
-#include <gtest/gtest.h>
-#include "projetc++.cpp"
+int main() {
+    FileManager fileManager;
 
-TEST(UserServiceTest, RegisterUserTest) {
-    UserService userService;
-    userService.RegisterUser("testuser", "Test@1234");
-    EXPECT_TRUE(userService.LoginUser("testuser", "Test@1234"));
-}
+    // Read test cases from file
+    string testCaseFile = "testcases.txt";
+    auto testCases = readTestCases(testCaseFile);
 
-TEST(UserServiceTest, LoginUserTest) {
-    UserService userService;
-    userService.RegisterUser("testuser", "Test@1234");
-    EXPECT_FALSE(userService.LoginUser("testuser", "wrongpassword"));
-}
+    if (testCases.empty()) {
+        cerr << "No test cases found or error reading file." << endl;
+        return 1;
+    }
 
-TEST(PasswordValidatorTest, ValidatePasswordTest) {
-    PasswordValidator validator;
-    EXPECT_TRUE(validator.validate("Test@1234"));
-    EXPECT_FALSE(validator.validate("weak"));
+    // Add users and verify
+    addAndVerifyUsers(fileManager, testCases);
+
+    return 0;
 }
