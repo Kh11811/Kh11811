@@ -258,10 +258,6 @@ int main(){
         cout<<username<<'\t'<<mode<<'\t'<<pass<<'\t'<<salt<<endl;
         test_function(mode,username,pass,salt,testcases);
     }
-    SaltGenerator salt1(5);
-    string pass="Khis onit@@";
-    string salt=salt1.generateSalt();
     
-    Hasher hash(pass,salt);
     return 0;
 }
