@@ -1,4 +1,4 @@
-name: Test projetc_fv  # The name of the workflow, visible in the GitHub Actions tab.
+name: Test projet2  # The name of the workflow, visible in the GitHub Actions tab.
 
 on:
   push: # Trigger the workflow whenever code is pushed to the repository.
@@ -21,11 +21,11 @@ jobs:
 
       # Step 3: Compile the C program
       - name: Build the program # Compile the 'projetc_fv.c' file into an executable.
-        run: gcc -o test_on test_on.cpp # Uses GCC to create an executable named 'sum' from the source code file 'sum.c'.
+        run: gcc -o projet2 projet2.cpp # Uses GCC to create an executable named 'sum' from the source code file 'sum.c'.
 
       # Step 4: Run the compiled program
       - name: Run the test # Executes the compiled C program to perform the tests.
-        run: ./test_on # Runs the 'projetc_fv' executable, which performs its logic and outputs the results.
+        run: ./projet2 # Runs the 'projetc_fv' executable, which performs its logic and outputs the results.
 
       # Step 5: Check for test failures
       - name: Check test result # Fail the job if the test results are not as expected.
