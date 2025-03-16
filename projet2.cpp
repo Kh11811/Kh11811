@@ -223,18 +223,22 @@ bool test_function(string mode,string username,string pass,string salt,int testc
         UserService user1;
         bool login_bool=user1.LoginUser(username,pass);
         if(login_bool){
-            testcases++;
+            
+            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
             return true;
         }
+        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
         return false;
     }
     else{
         UserService user1;
         bool register_bool=user1.RegisterUser(username,pass,salt);
         if(register_bool){
-            testcases++;
+            
+            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
             return true;
         }
+        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
         return false;
     }
 }
@@ -246,20 +250,19 @@ int main(){
         return 1;
     }
     string line;
-    int testcases=0;
+    int testcases=1;
     while(getline(file,line)){
         size_t comma1=line.find(',');
         size_t comma2=line.find(',',comma1+1);
         size_t comma3=line.find(',',comma2+1);
         size_t end=line.find(' ',comma3);
-        cout<<end<<endl;
         string username=line.substr(0,comma1);
         string mode=line.substr(comma1+1,comma2-comma1-1);
         string pass=line.substr(comma2+1,comma3-comma2-1);
         string salt=line.substr(comma3+1,end);
-        cout<<salt<<endl;
         cout<<username<<'\t'<<mode<<'\t'<<pass<<'\t'<<salt<<endl;
         test_function(mode,username,pass,salt,testcases);
+        testcases++;
     }
     SaltGenerator salt1(5);
     string pass="Khis onit@@";
