@@ -15,17 +15,19 @@ jobs:
       - name: Checkout code # Descriptive name for the step.
         uses: actions/checkout@v3 # Uses a prebuilt GitHub Action to clone the repo into the VM.
 
-      # Step 2: Install the GCC compiler
-      - name: Install GCC # Install the GNU Compiler Collection required for building C programs.
-        run: sudo apt-get install -y gcc # Installs GCC using the system's package manager.
+      # Step 2: Install the GCC compiler and required dependencies
+      - name: Install GCC and dependencies # Install the GNU Compiler Collection and other required tools.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ libyaml-cpp-dev # Install g++ (for C++) and yaml-cpp library.
 
-      # Step 3: Compile the C program
-      - name: Build the program # Compile the 'projetc_fv.c' file into an executable.
-        run: gcc -o projet2 projet2.cpp # Uses GCC to create an executable named 'sum' from the source code file 'sum.c'.
+      # Step 3: Compile the C++ program
+      - name: Build the program # Compile the 'projet2.cpp' file into an executable.
+        run: g++ -std=c++11 -o projet2 projet2.cpp -lyaml-cpp # Compile with C++11 and link yaml-cpp.
 
       # Step 4: Run the compiled program
-      - name: Run the test # Executes the compiled C program to perform the tests.
-        run: ./projet2 # Runs the 'projetc_fv' executable, which performs its logic and outputs the results.
+      - name: Run the test # Executes the compiled C++ program to perform the tests.
+        run: ./projet2 # Runs the 'projet2' executable, which performs its logic and outputs the results.
 
       # Step 5: Check for test failures
       - name: Check test result # Fail the job if the test results are not as expected.
