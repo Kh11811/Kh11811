@@ -1,5 +1,6 @@
 Khis onit@@,login,Khis onit@@,98q7Hp3m
 John Doe@@,register,John Doe@@,abc123
+John Doe@@,login,John Doe@@,abc123
 Jane Smith@@,login,Jane Smith@@,xyz789
 AliceBrown@@,login,AliceBrown@@,p@ssw0rd1
 BobJohnson@@,register,BobJohnson@@,SecurePass123
