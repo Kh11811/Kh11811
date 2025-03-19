@@ -210,7 +210,7 @@ public:
         }
         Hasher hasher(password, salt);
         string enteredHashedPassword = hasher.hashPassword();
-        if (enteredHashedPassword == storedHashedPassword) {
+        if (strcmp(enteredHashedPassword,storedHashedPassword)) {
             cout << "Login Successful! Welcome, " << username << "!\n";
             return true;
         } else {
