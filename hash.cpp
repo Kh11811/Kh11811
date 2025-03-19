@@ -34,3 +34,17 @@ private:
         return ss.str();
     }
 };
+int main(){
+    ofstream outFile("testcases.txt");
+
+    // Check if the file was opened successfully
+    if (!outFile.is_open()) {
+        cerr << "Error: Unable to open file for writing." << endl;
+        return 1; // Exit the program with an error code
+    }
+    Hasher hash1("Khis onit@@","98q7Hp3m");
+    Hasher hash2("John Doe@@","abc123");
+    outFile <<hash1.hashPassword()<< endl;
+    outFile <<hash2.hashPassword()<< endl;
+    outFile.close();
+}
