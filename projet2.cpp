@@ -24,14 +24,15 @@ public:
         }
         ofstream outFile(fileName, ios::app);
         if (outFile.is_open()) {
-            outFile << Username << "," << HashedPassword << "," << salt << "\n";
+            outFile << "\n"<<Username << "," << HashedPassword << "," << salt << endl;
             outFile.close();
             cout << "User " << Username << " added successfully!\n";
             return true;
         } else {
-            cerr << "ERROR: Unable to open file for adding user.\n";
+            cerr << "ERROR WHILE ADDING USER" << endl;
             return false;
         }
+        return false;
     }
 
     vector<tuple<string, string, string>> getdata() override {
@@ -52,13 +53,13 @@ public:
             }
             inFile.close();
         } else {
-            cerr << "ERROR: Unable to open file for reading user data.\n";
+            cerr << "Unable to get user DATA" << endl;
         }
         return users;
     }
 
     bool userExists(const string& Username) override {
-        auto users = getdata();
+        vector<tuple<string, string, string>> users = getdata();
         for (const auto& user : users) {
             if (get<0>(user) == Username) {
                 return true;
@@ -68,12 +69,14 @@ public:
     }
 
     tuple<bool, string, string> getUserInfo(const string& Username) override {
-        auto users = getdata();
+        vector<tuple<string, string, string>> users = getdata();
         for (const auto& user : users) {
             if (get<0>(user) == Username) {
+                // Return {true, hashedPassword, salt}
                 return {true, get<1>(user), get<2>(user)};
             }
         }
+        // User not found
         return {false, "", ""};
     }
 };
@@ -81,9 +84,8 @@ public:
 // SaltGenerator class to generate random salts
 class SaltGenerator {
     int length;
-
 public:
-    SaltGenerator(int l) : length(l) {}
+    SaltGenerator(int l):length(l){}
     string generateSalt(int length = 8) {
         string salt;
         const char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -113,22 +115,30 @@ public:
 // Hasher class to hash passwords
 class Hasher : public IHash {
 public:
-    Hasher(const string& pass, const string& sal) : password(pass), salt(sal) {}
+    Hasher(const string& pass, const string& sal) {
+        password = pass;
+        salt = sal;
+    }
 
     string hashPassword() override {
         string alternated = alternate_characters(password, salt);
-        return to_hex(alternated);
+        string hashed = to_hex(alternated);
+        return hashed;
     }
 
 private:
     string alternate_characters(const string& password, const string& salt) {
         string result;
         size_t max_length = max(password.length(), salt.length());
-        for (size_t i = 0; i < max_length; ++i) {
-            if (i < password.length()) result += password[i];
-            if (i < salt.length()) result += salt[i];
+        for (size_t i = 0; i < max_length; i++) {
+            if (i < password.length()) {
+                result += password[i];
+            }
+            if (i < salt.length()) {
+                result += salt[i];
+            }
         }
-        result += 'k'; // Add a constant for additional complexity
+        result+='k';
         return result;
     }
 
@@ -155,7 +165,7 @@ public:
         if (password.length() < 8) return false;
 
         bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-        const string specialChars = "@#$%^&*()_+!~";
+        string specialChars = "@#$%^&*()_+!~";
 
         for (char ch : password) {
             if (isupper(ch)) hasUpper = true;
@@ -174,17 +184,18 @@ protected:
     FileManager fileManager;
 
 public:
-    virtual bool RegisterUser(const string& username, const string& password, const string& salt) = 0;
+    virtual bool RegisterUser(const string& username, const string& password,const string&salt) = 0;
     virtual bool LoginUser(const string& username, const string& password) = 0;
 };
 
 // UserService class to handle user operations
 class UserService : protected IuserService {
 public:
-    bool RegisterUser(const string& username, const string& password, const string& salt) override {
+    bool RegisterUser(const string& username, const string& password,const string& salt) override {
         Hasher hasher(password, salt);
         string hashedPassword = hasher.hashPassword();
-        return fileManager.addUser(username, hashedPassword, salt);
+        bool ok=fileManager.addUser(username, hashedPassword, salt);
+        return ok;
     }
 
     bool LoginUser(const string& username, const string& password) override {
@@ -197,7 +208,6 @@ public:
             cout << "Login Failed: Username does not exist.\n";
             return false;
         }
-
         Hasher hasher(password, salt);
         string enteredHashedPassword = hasher.hashPassword();
         if (enteredHashedPassword == storedHashedPassword) {
@@ -209,46 +219,52 @@ public:
         }
     }
 };
-
-// Test function
-bool test_function(const string& mode, const string& username, const string& pass, const string& salt, int testcases) {
-    UserService user1;
-    bool result = false;
-
-    if (mode == "login") {
-        result = user1.LoginUser(username, pass);
-    } else {
-        result = user1.RegisterUser(username, pass, salt);
+bool test_function(string mode,string username,string pass,string salt,int testcases){
+    if(mode=="login"){
+        UserService user1;
+        bool login_bool=user1.LoginUser(username,pass);
+        if(login_bool==true){
+            
+            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
+            return true;
+        }
+        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
+        return false;
     }
-
-    cout << "Testcase " << testcases << (result ? " SUCCESSFUL" : " FAILED") << endl;
-    return result;
+    else{
+        UserService user1;
+        bool register_bool=user1.RegisterUser(username,pass,salt);
+        if(register_bool==true){
+            
+            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
+            return true;
+        }
+        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
+        return false;
+    }
 }
 
-int main() {
+int main(){
     ifstream file("database.txt");
-    if (!file.is_open()) {
-        cerr << "Error: Unable to open database file.\n";
+    if (!file.is_open()){
+        cerr<<"Error while loading file"<<endl;
         return 1;
     }
-
     string line;
-    int testcases = 1;
-    while (getline(file, line)) {
-        size_t comma1 = line.find(',');
-        size_t comma2 = line.find(',', comma1 + 1);
-        size_t comma3 = line.find(',', comma2 + 1);
-        size_t end = line.find(' ', comma3);
-
-        string username = line.substr(0, comma1);
-        string mode = line.substr(comma1 + 1, comma2 - comma1 - 1);
-        string pass = line.substr(comma2 + 1, comma3 - comma2 - 1);
-        string salt = line.substr(comma3 + 1, end - comma3 - 1);
-
-        cout << username << '\t' << mode << '\t' << pass << '\t' << salt << endl;
-        test_function(mode, username, pass, salt, testcases);
+    int testcases=1;
+    while(getline(file,line)){
+        size_t comma1=line.find(',');
+        size_t comma2=line.find(',',comma1+1);
+        size_t comma3=line.find(',',comma2+1);
+        size_t end=line.find(' ',comma3);
+        string username=line.substr(0,comma1);
+        string mode=line.substr(comma1+1,comma2-comma1-1);
+        string pass=line.substr(comma2+1,comma3-comma2-1);
+        string salt=line.substr(comma3+1,end);
+        cout<<username<<'\t'<<mode<<'\t'<<pass<<'\t'<<salt<<endl;
+        test_function(mode,username,pass,salt,testcases);
         testcases++;
     }
-
+    
     return 0;
 }
