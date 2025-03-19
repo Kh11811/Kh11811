@@ -47,4 +47,5 @@ int main(){
     outFile <<hash1.hashPassword()<< endl;
     outFile <<hash2.hashPassword()<< endl;
     outFile.close();
+    return 0;
 }
