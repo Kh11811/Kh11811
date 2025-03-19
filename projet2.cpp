@@ -138,6 +138,7 @@ private:
                 result += salt[i];
             }
         }
+        result+='k';
         return result;
     }
 
