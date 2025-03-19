@@ -1,3 +1,5 @@
+#include <bits/stdc++.h>
+using namespace std;
 class Hasher : public IHash {
 public:
     Hasher(const string& pass, const string& sal) {
