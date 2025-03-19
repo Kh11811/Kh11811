@@ -45,7 +45,9 @@ int main(){
     Hasher hash1("Khis onit@@","98q7Hp3m");
     Hasher hash2("John Doe@@","abc123");
     outFile <<hash1.hashPassword()<< endl;
+    cout<<hash1.hashPassword()<<endl;
     outFile <<hash2.hashPassword()<< endl;
+    cout<<hash2.hashPassword()<<endl;
     outFile.close();
     return 0;
 }
