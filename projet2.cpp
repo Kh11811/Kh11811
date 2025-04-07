@@ -172,7 +172,7 @@ public:
 
     bool LoginUser(const string& username, const string& password) override {
         auto [exists, storedHashedPassword, salt] = fileManager.getUserInfo(username);
-
+        cout<<storedHashedPassword<<endl;
         if (!exists) {
             cout << "Login Failed: Username does not exist.\n";
             return false;
