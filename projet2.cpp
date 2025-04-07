@@ -199,18 +199,15 @@ public:
     }
 
     bool LoginUser(const string& username, const string& password) override {
-        auto userInfo = fileManager.getUserInfo(username);
-        bool exists = get<0>(userInfo);
-        string storedHashedPassword = get<1>(userInfo);
-        string salt = get<2>(userInfo);
-
+        auto [exists, storedHashedPassword, salt] = fileManager.getUserInfo(username);
+    
         if (!exists) {
             cout << "Login Failed: Username does not exist.\n";
             return false;
         }
+    
         Hasher hasher(password, salt);
-        string enteredHashedPassword = hasher.hashPassword();
-        if (enteredHashedPassword == storedHashedPassword) {
+        if (hasher.hashPassword() == storedHashedPassword) {
             cout << "Login Successful! Welcome, " << username << "!\n";
             return true;
         } else {
@@ -218,6 +215,7 @@ public:
             return false;
         }
     }
+
 };
 bool test_function(const string& mode, const string& username, const string& pass, const string& salt, int testcases) {
     UserService user;
