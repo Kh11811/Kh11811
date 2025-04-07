@@ -219,29 +219,23 @@ public:
         }
     }
 };
-bool test_function(string mode,string username,string pass,string salt,int testcases){
-    if(mode=="login"){
-        UserService user1;
-        bool login_bool=user1.LoginUser(username,pass);
-        if(login_bool==true){
-            
-            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
-            return true;
-        }
-        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
-        return false;
+bool test_function(const string& mode, const string& username, const string& pass, const string& salt, int testcases) {
+    UserService user;
+
+    bool result = false;
+    if (mode == "login") {
+        result = user.LoginUser(username, pass);
+    } else {
+        result = user.RegisterUser(username, pass, salt);
     }
-    else{
-        UserService user1;
-        bool register_bool=user1.RegisterUser(username,pass,salt);
-        if(register_bool==true){
-            
-            cout<<"Testcase "<<testcases<<" SUCCESSFUL"<<endl;
-            return true;
-        }
-        cout<<"Testcase "<<testcases<<" FAILED"<<endl;
-        return false;
+
+    if (result) {
+        cout << "Testcase " << testcases << " SUCCESSFUL" << endl;
+    } else {
+        cout << "Testcase " << testcases << " FAILED" << endl;
     }
+
+    return result;
 }
 
 int main(){
