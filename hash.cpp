@@ -54,7 +54,7 @@ private:
 
 int main() {
     // Open a file for writing
-    ofstream outFile("testcases.txt");
+    ofstream outFile("dataset.txt");
 
     // Check if the file was opened successfully
     if (!outFile.is_open()) {
