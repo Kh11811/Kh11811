@@ -37,12 +37,16 @@ public:
     vector<tuple<string, string, string>> getdata() override {
         vector<tuple<string, string, string>> users;
         ifstream inFile(fileName);
+
         if (inFile.is_open()) {
             string line;
             while (getline(inFile, line)) {
                 stringstream ss(line);
                 string Username, HashedPassword, salt;
-                if (getline(ss, Username, ',') && getline(ss, HashedPassword, ',') && getline(ss, salt, ',')) {
+
+                if (getline(ss, Username, ',') &&
+                    getline(ss, HashedPassword, ',') &&
+                    getline(ss, salt, ',')) {
                     users.emplace_back(Username, HashedPassword, salt);
                 }
             }
@@ -67,16 +71,20 @@ public:
         vector<tuple<string, string, string>> users = getdata();
         for (const auto& user : users) {
             if (get<0>(user) == Username) {
+                // Return {true, hashedPassword, salt}
                 return {true, get<1>(user), get<2>(user)};
             }
         }
+        // User not found
         return {false, "", ""};
     }
 };
 
 // SaltGenerator class to generate random salts
 class SaltGenerator {
+    int length;
 public:
+    SaltGenerator(int l) : length(l) {}
     string generateSalt(int length = 8) {
         string salt;
         const char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -86,6 +94,7 @@ public:
         for (int i = 0; i < length; ++i) {
             salt += characters[rand() % charSize];
         }
+
         return salt;
     }
 };
@@ -128,7 +137,7 @@ private:
                 result += salt[i];
             }
         }
-        result += 'k';  // This is added as per your original logic
+        result += 'k';
         return result;
     }
 
@@ -138,32 +147,6 @@ private:
             ss << hex << setw(2) << setfill('0') << (int)c;
         }
         return ss.str();
-    }
-};
-
-// Interface for validation
-class IValidator {
-public:
-    virtual ~IValidator() = default;
-    virtual bool validate(const string& input) const = 0;
-};
-
-// PasswordValidator class to validate passwords
-class PasswordValidator : public IValidator {
-public:
-    bool validate(const string& password) const override {
-        if (password.length() < 8) return false;
-        bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-        string specialChars = "@#$%^&*()_+!~";
-
-        for (char ch : password) {
-            if (isupper(ch)) hasUpper = true;
-            else if (islower(ch)) hasLower = true;
-            else if (isdigit(ch)) hasDigit = true;
-            else if (specialChars.find(ch) != string::npos) hasSpecial = true;
-        }
-
-        return hasUpper && hasLower && hasDigit && hasSpecial;
     }
 };
 
@@ -181,11 +164,6 @@ public:
 class UserService : protected IuserService {
 public:
     bool RegisterUser(const string& username, const string& password, const string& salt) override {
-        PasswordValidator validator;
-        if (!validator.validate(password)) {
-            cout << "Password does not meet the required criteria!" << endl;
-            return false;
-        }
         Hasher hasher(password, salt);
         string hashedPassword = hasher.hashPassword();
         bool ok = fileManager.addUser(username, hashedPassword, salt);
@@ -194,12 +172,12 @@ public:
 
     bool LoginUser(const string& username, const string& password) override {
         auto [exists, storedHashedPassword, salt] = fileManager.getUserInfo(username);
-    
+
         if (!exists) {
             cout << "Login Failed: Username does not exist.\n";
             return false;
         }
-    
+
         Hasher hasher(password, salt);
         if (hasher.hashPassword() == storedHashedPassword) {
             cout << "Login Successful! Welcome, " << username << "!\n";
@@ -211,29 +189,31 @@ public:
     }
 };
 
-// Trim spaces from the beginning and end of a string
-string trim(const string& str) {
-    size_t start = str.find_first_not_of(" \t\n\r");
-    size_t end = str.find_last_not_of(" \t\n\r");
-    return (start == string::npos || end == string::npos) ? "" : str.substr(start, end - start + 1);
+// Function to calculate obtained result based on the actual operation
+bool calculate_obtained_result(bool actual_result, bool expected_result) {
+    return actual_result == expected_result;
 }
 
-bool test_function(const string& mode, const string& username, const string& pass, const string& salt, int testcases) {
+// Test function
+bool test_function(const string& mode, const string& username, const string& pass, const string& salt, bool expected_result) {
     UserService user;
-    bool result = false;
+
+    bool actual_result = false;
     if (mode == "login") {
-        result = user.LoginUser(username, pass);
-    } else {
-        result = user.RegisterUser(username, pass, salt);
+        actual_result = user.LoginUser(username, pass);
+    } else if (mode == "register") {
+        actual_result = user.RegisterUser(username, pass, salt);
     }
 
-    if (result) {
-        cout << "Testcase " << testcases << " SUCCESSFUL" << endl;
+    bool obtained_result = calculate_obtained_result(actual_result, expected_result);
+
+    if (obtained_result) {
+        cout << "Testcase SUCCESSFUL\n";
     } else {
-        cout << "Testcase " << testcases << " FAILED" << endl;
+        cout << "Testcase FAILED\n";
     }
 
-    return result;
+    return obtained_result;
 }
 
 int main() {
@@ -242,23 +222,25 @@ int main() {
         cerr << "Error while loading file" << endl;
         return 1;
     }
+
     string line;
     int testcases = 1;
     while (getline(file, line)) {
         size_t comma1 = line.find(',');
         size_t comma2 = line.find(',', comma1 + 1);
         size_t comma3 = line.find(',', comma2 + 1);
-        size_t end = line.find(' ', comma3);
-        
-        string username = trim(line.substr(0, comma1));
-        string mode = trim(line.substr(comma1 + 1, comma2 - comma1 - 1));
-        string pass = trim(line.substr(comma2 + 1, comma3 - comma2 - 1));
-        string salt = trim(line.substr(comma3 + 1, end));
+        size_t comma4 = line.find(',', comma3 + 1);
 
-        cout << username << '\t' << mode << '\t' << pass << '\t' << salt << endl;
-        test_function(mode, username, pass, salt, testcases);
+        string username = line.substr(0, comma1);
+        string mode = line.substr(comma1 + 1, comma2 - comma1 - 1);
+        string pass = line.substr(comma2 + 1, comma3 - comma2 - 1);
+        string salt = line.substr(comma3 + 1, comma4 - comma3 - 1);
+        bool expected_result = (line.substr(comma4 + 1) == "true");
+
+        cout << username << '\t' << mode << '\t' << pass << '\t' << salt << '\t' << expected_result << endl;
+        test_function(mode, username, pass, salt, expected_result);
         testcases++;
     }
-    
+
     return 0;
 }
