@@ -4,7 +4,7 @@ using namespace std;
 // Interface for storage operations
 class Istorage {
 protected:
-    string fileName = "dataset.txt";
+    string fileName = "testcase.txt";
 
 public:
     virtual bool addUser(const string&, const string&, const string&) = 0;
