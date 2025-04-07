@@ -24,7 +24,7 @@ public:
         }
         ofstream outFile(fileName, ios::app);
         if (outFile.is_open()) {
-            outFile << "\n" << Username << "," << HashedPassword << "," << salt << endl;
+            outFile << "\n"<<Username << "," << HashedPassword << "," << salt << endl;
             outFile.close();
             cout << "User " << Username << " added successfully!\n";
             return true;
@@ -32,6 +32,7 @@ public:
             cerr << "ERROR WHILE ADDING USER" << endl;
             return false;
         }
+        return false;
     }
 
     vector<tuple<string, string, string>> getdata() override {
@@ -84,7 +85,8 @@ public:
 class SaltGenerator {
     int length;
 public:
-    SaltGenerator(int l) : length(l) {}
+    SaltGenerator(int l):length(l){}
+
     string generateSalt(int length = 8) {
         string salt;
         const char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -150,34 +152,52 @@ private:
     }
 };
 
-// Interface for user service
-class IuserService {
+// Interface for validation
+class IValidator {
+public:
+    virtual ~IValidator() = default;
+    virtual bool validate(const string& input) const = 0;
+};
+
+// PasswordValidator class to validate passwords
+class PasswordValidator : public IValidator {
+public:
+    bool validate(const string& password) const override {
+        if (password.length() < 8) return false;
+
+        bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+        string specialChars = "@#$%^&*()_+!~";
+
+        for (char ch : password) {
+            if (isupper(ch)) hasUpper = true;
+            else if (islower(ch)) hasLower = true;
+            else if (isdigit(ch)) hasDigit = true;
+            else if (specialChars.find(ch) != string::npos) hasSpecial = true;
+        }
+
+        return hasUpper && hasLower && hasDigit && hasSpecial;
+    }
+};
+
+// UserService class to handle user operations
+class UserService {
 protected:
     FileManager fileManager;
 
 public:
-    virtual bool RegisterUser(const string& username, const string& password, const string& salt) = 0;
-    virtual bool LoginUser(const string& username, const string& password) = 0;
-};
-
-// UserService class to handle user operations
-class UserService : protected IuserService {
-public:
-    bool RegisterUser(const string& username, const string& password, const string& salt) override {
+    bool RegisterUser(const string& username, const string& password, const string& salt) {
         Hasher hasher(password, salt);
         string hashedPassword = hasher.hashPassword();
         bool ok = fileManager.addUser(username, hashedPassword, salt);
         return ok;
     }
 
-    bool LoginUser(const string& username, const string& password) override {
+    bool LoginUser(const string& username, const string& password) {
         auto [exists, storedHashedPassword, salt] = fileManager.getUserInfo(username);
-        cout<<storedHashedPassword<<endl;
         if (!exists) {
             cout << "Login Failed: Username does not exist.\n";
             return false;
         }
-
         Hasher hasher(password, salt);
         if (hasher.hashPassword() == storedHashedPassword) {
             cout << "Login Successful! Welcome, " << username << "!\n";
@@ -189,56 +209,45 @@ public:
     }
 };
 
-// Function to calculate obtained result based on the actual operation
-bool calculate_obtained_result(bool actual_result, bool expected_result) {
-    return actual_result == expected_result;
-}
-
 // Test function
-bool test_function(const string& mode, const string& username, const string& pass, const string& salt, bool expected_result) {
+bool test_function(const string& mode, const string& username, const string& password, const string& salt, const string& expected_result, const string& hashedPassword) {
     UserService user;
-
-    bool actual_result = false;
+    bool result = false;
     if (mode == "login") {
-        actual_result = user.LoginUser(username, pass);
-    } else if (mode == "register") {
-        actual_result = user.RegisterUser(username, pass, salt);
-    }
-
-    bool obtained_result = calculate_obtained_result(actual_result, expected_result);
-
-    if (obtained_result) {
-        cout << "Testcase SUCCESSFUL\n";
+        result = user.LoginUser(username, password);
     } else {
-        cout << "Testcase FAILED\n";
+        result = user.RegisterUser(username, password, salt);
     }
 
-    return obtained_result;
+    // Compare obtained result with expected result
+    bool obtainedResult = (result ? "true" : "false") == expected_result;
+
+    cout << username << ", " << mode << ", " << password << ", " << hashedPassword << ", " << expected_result << ", " << (obtainedResult ? "true" : "false") << endl;
+    return obtainedResult;
 }
 
-int main() {
+int main(){
     ifstream file("testcases.txt");
-    if (!file.is_open()) {
+    if (!file.is_open()){
         cerr << "Error while loading file" << endl;
         return 1;
     }
-
     string line;
     int testcases = 1;
     while (getline(file, line)) {
-        size_t comma1 = line.find(',');
-        size_t comma2 = line.find(',', comma1 + 1);
-        size_t comma3 = line.find(',', comma2 + 1);
-        size_t comma4 = line.find(',', comma3 + 1);
+        stringstream ss(line);
+        string username, mode, password, hashedPassword, expected_result;
+        string salt;
 
-        string username = line.substr(0, comma1);
-        string mode = line.substr(comma1 + 1, comma2 - comma1 - 1);
-        string pass = line.substr(comma2 + 1, comma3 - comma2 - 1);
-        string salt = line.substr(comma3 + 1, comma4 - comma3 - 1);
-        bool expected_result = (line.substr(comma4 + 1) == "true");
+        getline(ss, username, ',');
+        getline(ss, mode, ',');
+        getline(ss, password, ',');
+        getline(ss, hashedPassword, ',');
+        getline(ss, expected_result, ',');
+        getline(ss, salt, ',');
 
-        cout << username << '\t' << mode << '\t' << pass << '\t' << salt << '\t' << expected_result << endl;
-        test_function(mode, username, pass, salt, expected_result);
+        cout << username << '\t' << mode << '\t' << password << '\t' << hashedPassword << '\t' << expected_result << '\t' << salt << endl;
+        test_function(mode, username, password, salt, expected_result, hashedPassword);
         testcases++;
     }
 
