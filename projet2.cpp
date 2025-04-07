@@ -24,7 +24,7 @@ public:
         }
         ofstream outFile(fileName, ios::app);
         if (outFile.is_open()) {
-            outFile << "\n"<<Username << "," << HashedPassword << "," << salt << endl;
+            outFile << "\n" << Username << "," << HashedPassword << "," << salt << endl;
             outFile.close();
             cout << "User " << Username << " added successfully!\n";
             return true;
@@ -32,22 +32,17 @@ public:
             cerr << "ERROR WHILE ADDING USER" << endl;
             return false;
         }
-        return false;
     }
 
     vector<tuple<string, string, string>> getdata() override {
         vector<tuple<string, string, string>> users;
         ifstream inFile(fileName);
-
         if (inFile.is_open()) {
             string line;
             while (getline(inFile, line)) {
                 stringstream ss(line);
                 string Username, HashedPassword, salt;
-
-                if (getline(ss, Username, ',') &&
-                    getline(ss, HashedPassword, ',') &&
-                    getline(ss, salt, ',')) {
+                if (getline(ss, Username, ',') && getline(ss, HashedPassword, ',') && getline(ss, salt, ',')) {
                     users.emplace_back(Username, HashedPassword, salt);
                 }
             }
@@ -72,20 +67,16 @@ public:
         vector<tuple<string, string, string>> users = getdata();
         for (const auto& user : users) {
             if (get<0>(user) == Username) {
-                // Return {true, hashedPassword, salt}
                 return {true, get<1>(user), get<2>(user)};
             }
         }
-        // User not found
         return {false, "", ""};
     }
 };
 
 // SaltGenerator class to generate random salts
 class SaltGenerator {
-    int length;
 public:
-    SaltGenerator(int l):length(l){}
     string generateSalt(int length = 8) {
         string salt;
         const char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -95,7 +86,6 @@ public:
         for (int i = 0; i < length; ++i) {
             salt += characters[rand() % charSize];
         }
-
         return salt;
     }
 };
@@ -138,7 +128,7 @@ private:
                 result += salt[i];
             }
         }
-        result+='k';
+        result += 'k';  // This is added as per your original logic
         return result;
     }
 
@@ -163,7 +153,6 @@ class PasswordValidator : public IValidator {
 public:
     bool validate(const string& password) const override {
         if (password.length() < 8) return false;
-
         bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
         string specialChars = "@#$%^&*()_+!~";
 
@@ -184,17 +173,22 @@ protected:
     FileManager fileManager;
 
 public:
-    virtual bool RegisterUser(const string& username, const string& password,const string&salt) = 0;
+    virtual bool RegisterUser(const string& username, const string& password, const string& salt) = 0;
     virtual bool LoginUser(const string& username, const string& password) = 0;
 };
 
 // UserService class to handle user operations
 class UserService : protected IuserService {
 public:
-    bool RegisterUser(const string& username, const string& password,const string& salt) override {
+    bool RegisterUser(const string& username, const string& password, const string& salt) override {
+        PasswordValidator validator;
+        if (!validator.validate(password)) {
+            cout << "Password does not meet the required criteria!" << endl;
+            return false;
+        }
         Hasher hasher(password, salt);
         string hashedPassword = hasher.hashPassword();
-        bool ok=fileManager.addUser(username, hashedPassword, salt);
+        bool ok = fileManager.addUser(username, hashedPassword, salt);
         return ok;
     }
 
@@ -215,11 +209,17 @@ public:
             return false;
         }
     }
-
 };
+
+// Trim spaces from the beginning and end of a string
+string trim(const string& str) {
+    size_t start = str.find_first_not_of(" \t\n\r");
+    size_t end = str.find_last_not_of(" \t\n\r");
+    return (start == string::npos || end == string::npos) ? "" : str.substr(start, end - start + 1);
+}
+
 bool test_function(const string& mode, const string& username, const string& pass, const string& salt, int testcases) {
     UserService user;
-
     bool result = false;
     if (mode == "login") {
         result = user.LoginUser(username, pass);
@@ -236,25 +236,27 @@ bool test_function(const string& mode, const string& username, const string& pas
     return result;
 }
 
-int main(){
+int main() {
     ifstream file("testcases.txt");
-    if (!file.is_open()){
-        cerr<<"Error while loading file"<<endl;
+    if (!file.is_open()) {
+        cerr << "Error while loading file" << endl;
         return 1;
     }
     string line;
-    int testcases=1;
-    while(getline(file,line)){
-        size_t comma1=line.find(',');
-        size_t comma2=line.find(',',comma1+1);
-        size_t comma3=line.find(',',comma2+1);
-        size_t end=line.find(' ',comma3);
-        string username=line.substr(0,comma1);
-        string mode=line.substr(comma1+1,comma2-comma1-1);
-        string pass=line.substr(comma2+1,comma3-comma2-1);
-        string salt=line.substr(comma3+1,end);
-        cout<<username<<'\t'<<mode<<'\t'<<pass<<'\t'<<salt<<endl;
-        test_function(mode,username,pass,salt,testcases);
+    int testcases = 1;
+    while (getline(file, line)) {
+        size_t comma1 = line.find(',');
+        size_t comma2 = line.find(',', comma1 + 1);
+        size_t comma3 = line.find(',', comma2 + 1);
+        size_t end = line.find(' ', comma3);
+        
+        string username = trim(line.substr(0, comma1));
+        string mode = trim(line.substr(comma1 + 1, comma2 - comma1 - 1));
+        string pass = trim(line.substr(comma2 + 1, comma3 - comma2 - 1));
+        string salt = trim(line.substr(comma3 + 1, end));
+
+        cout << username << '\t' << mode << '\t' << pass << '\t' << salt << endl;
+        test_function(mode, username, pass, salt, testcases);
         testcases++;
     }
     
