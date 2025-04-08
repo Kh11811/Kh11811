@@ -1,5 +1,5 @@
 
-name: Test projet3  # The name of the workflow, visible in the GitHub Actions tab.
+name: Test projetcMAJDI  # The name of the workflow, visible in the GitHub Actions tab.
 
 on:
   push: # Trigger the workflow whenever code is pushed to the repository.
@@ -24,11 +24,11 @@ jobs:
 
       # Step 3: Compile the C++ program
       - name: Build the program # Compile the 'projet2.cpp' file into an executable.
-        run: g++ -std=c++11 -o projet3 projet3.cpp -lyaml-cpp # Compile with C++11 and link yaml-cpp.
+        run: g++ -std=c++11 -o projetcMAJDI projetcMAJDI.cpp -lyaml-cpp # Compile with C++11 and link yaml-cpp.
 
       # Step 4: Run the compiled program
       - name: Run the test # Executes the compiled C++ program to perform the tests.
-        run: ./projet3 # Runs the 'projet2' executable, which performs its logic and outputs the results.
+        run: ./projetcMAJDI # Runs the 'projet2' executable, which performs its logic and outputs the results.
 
       # Step 5: Check for test failures
       - name: Check test result # Fail the job if the test results are not as expected.
