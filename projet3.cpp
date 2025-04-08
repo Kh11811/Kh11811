@@ -186,6 +186,7 @@ public:
         hasher.setSalt(salt);
         hasher.setPassword(password);
         string hashedPassword = hasher.hashPassword();
+        cour<<hashedPassword<<endl;
         bool ok = fileManager.addUser(username, hashedPassword, salt);
         return ok;
     }
@@ -202,6 +203,7 @@ public:
         Hasher hasher;
         hasher.setSalt(salt);
         hasher.setPassword(password);
+        cout<<hasher.hashPassword()<<endl;
         if (hasher.hashPassword() == storedHashedPassword) {
             cout << "Login Successful! Welcome, " << username << "!\n";
             return true;
