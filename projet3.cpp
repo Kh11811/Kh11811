@@ -230,7 +230,7 @@ bool test_function(const string& mode, const string& username, const string& pas
 }
 
 int main(){
-    ifstream file("testcases.txt");
+    ifstream file("testcases1.txt");
     if (!file.is_open()){
         cerr << "Error while loading file" << endl;
         return 1;
