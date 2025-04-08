@@ -194,7 +194,9 @@ public:
             cout << "Login Failed: Username does not exist.\n";
             return false;
         }
-        Hasher hasher(password, salt);
+        Hasher hasher;
+        hasher.setSalt(salt);
+        hasher.setPassword(password);
         if (hasher.hashPassword() == storedHashedPassword) {
             cout << "Login Successful! Welcome, " << username << "!\n";
             return true;
