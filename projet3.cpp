@@ -182,7 +182,9 @@ protected:
 
 public:
     bool RegisterUser(const string& username, const string& password, const string& salt) {
-        Hasher hasher(password, salt);
+        Hasher hasher;
+        hasher.setSalt(salt);
+        hasher.setPassword(password);
         string hashedPassword = hasher.hashPassword();
         bool ok = fileManager.addUser(username, hashedPassword, salt);
         return ok;
