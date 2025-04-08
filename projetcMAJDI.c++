@@ -226,7 +226,7 @@ bool test_function(const string& mode, const string& username, const string& pas
 }
 
 int main() {
-    ifstream testFile("testcases.txt");
+    ifstream testFile("testcasesmajdi.txt");
     string line;
 
     int testCount = 1;
