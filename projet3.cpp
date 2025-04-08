@@ -189,7 +189,10 @@ public:
     }
 
     bool LoginUser(const string& username, const string& password) {
-        auto [exists, storedHashedPassword, salt] = fileManager.getUserInfo(username);
+        auto userInfo = fileManager.getUserInfo(username);
+        bool exists = get<0>(userInfo);
+        string storedHashedPassword = get<1>(userInfo);
+        string salt = get<2>(userInfo);
         if (!exists) {
             cout << "Login Failed: Username does not exist.\n";
             return false;
