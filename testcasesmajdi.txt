@@ -1,0 +1,12 @@
+register,johnDoe,Password@123,,success,
+register,johnDoe,AnotherPass1@,,fail,
+register,aliceSmith,MyPass#2024,,success,
+register,bobJones,short,,fail,
+register,janeWhite,nopunctuation123A,,fail,
+register,kevinBlue,AllGood#2024,,success,
+login,johnDoe,Password@123,,success,
+login,johnDoe,WrongPassword1@,,fail,
+login,nonExistent,SomePassword1!,dummySalt,fail,
+login,aliceSmith,MyPass#2024,,success,
+login,bobJones,short,,fail,
+login,kevinBlue,AllGood#2024,,success
