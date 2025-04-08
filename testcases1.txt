@@ -1,0 +1,10 @@
+alice,register,Pa$$w0rd1!,9f01b2f0,true,true
+bob,login,Secure#123,ef421c60,true,true
+charlie,register,HeLLo@2024,fa8bb50e,true,true
+diana,login,My_Pass1!,e3912f4d,true,true
+edward,register,Tricky#42,b22bdf9a,false,false
+fiona,login,Winter@88,e74dbd02,true,true
+george,register,Dragon!99,beb8b75f,true,true
+hannah,login,PassWord1@,3a6a8c9a,false,false
+ian,register,Trust#No1,68a9b621,true,true
+julia,login,Magic@2023,e42698ff,true,true
