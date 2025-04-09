@@ -219,7 +219,9 @@ bool test_function(const string& mode, const string& username, const string& pas
     UserService user;
     bool result = false;
     if (mode == "login") {
-        result = user.LoginUser(username, password);
+        auto users=getUserInfo(username);
+        Hasher hash(password,salt);
+        result = userExists(username) && (hash.hashPassword()==users<1>);
     } else {
         result = user.RegisterUser(username, password, salt);
     }
