@@ -219,8 +219,8 @@ bool test_function(const string& mode, const string& username, const string& pas
     UserService user;
     bool result = false;
     if (mode == "login") {
-        auto users=fileManager.getUserInfo(username);
-        Hasher hash();
+        auto users=FileManager.getUserInfo(username);
+        Hasher hash;
         hash.setPassword(password);
         hash.setSalt(salt);
         result = userExists(username) && (hash.hashPassword()==get<1>(users));
