@@ -247,10 +247,9 @@ int main(){
         getline(ss, username, ',');
         getline(ss, mode, ',');
         getline(ss, password, ',');
+        getline(ss, salt, ',');
         getline(ss, hashedPassword, ',');
         getline(ss, expected_result, ',');
-        getline(ss, salt, ',');
-
         cout << username << '\t' << mode << '\t' << password << '\t' << hashedPassword << '\t' << expected_result << '\t' << salt << endl;
         test_function(mode, username, password, salt, expected_result, hashedPassword);
         testcases++;
