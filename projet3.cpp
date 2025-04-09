@@ -219,7 +219,7 @@ bool test_function(const string& mode, const string& username, const string& pas
     UserService user;
     bool result = false;
     if (mode == "login") {
-        auto users=FileManager.getUserInfo(username);
+        auto users=user.fileManager.getUserInfo(username);
         Hasher hash;
         hash.setPassword(password);
         hash.setSalt(salt);
