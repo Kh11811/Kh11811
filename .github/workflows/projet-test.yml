@@ -1,0 +1,35 @@
+name: Test projet-test # The name of the workflow, visible in the GitHub Actions tab.
+
+on:
+  push: # Trigger the workflow whenever code is pushed to the repository.
+    branches:
+      - main # Runs only if changes are pushed to the 'main' branch.
+  pull_request: # Trigger the workflow when a pull request is created or updated.
+
+jobs:
+  build-and-test: # The name of the job.
+    runs-on: ubuntu-latest # Specifies the virtual machine environment for the job.
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code # Descriptive name for the step.
+        uses: actions/checkout@v3 # Uses a prebuilt GitHub Action to clone the repo into the VM.
+
+      # Step 2: Install the GCC compiler and required dependencies
+      - name: Install GCC and dependencies # Install the GNU Compiler Collection and other required tools.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ libyaml-cpp-dev # Install g++ (for C++) and yaml-cpp library.
+
+      # Step 3: Compile the C++ program
+      - name: Build the program # Compile the 'projet2.cpp' file into an executable.
+        run: g++ -std=c++11 -o projet-test projet-test.cpp -lyaml-cpp # Compile with C++11 and link yaml-cpp.
+
+      # Step 4: Run the compiled program
+      - name: Run the test # Executes the compiled C++ program to perform the tests.
+        run: ./projet-test # Runs the 'projet2' executable, which performs its logic and outputs the results.
+
+      # Step 5: Check for test failures
+      - name: Check test result # Fail the job if the test results are not as expected.
+        if: failure() # This step runs only if the previous step (Run the test) fails.
+        run: exit 1 # Explicitly fails the job by exiting with a non-zero status code.
