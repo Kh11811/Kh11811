@@ -21,7 +21,7 @@
 <br>
 
 [![Python Badge](https://img.shields.io/badge/-Python-61DBFB?style=for-the-badge&labelColor=black&logo=python&logoColor=61DBFB)](#) [![C++ Badge](https://img.shields.io/badge/-C++-00599C?style=for-the-badge&labelColor=black&logo=c%2B%2B&logoColor=white)](#)
- [![C Badge](https://img.shields.io/badge/-C-007acc?style=for-the-badge&labelColor=black&logo=c&logoColor=007acc)](#) [![Nodejs Badge](https://img.shields.io/badge/-Nodejs-3C873A?style=for-the-badge&labelColor=black&logo=node.js&logoColor=3C873A)](#) [![SQL Badge](https://img.shields.io/badge/-SQL-e535ab?style=for-the-badge&labelColor=black&logo=node.js&logoColor=e535ab)](#)
+ [![C Badge](https://img.shields.io/badge/-C-007acc?style=for-the-badge&labelColor=black&logo=c&logoColor=007acc)](#) [![Kali Badge](https://img.shields.io/badge/-Kali-3C873A?style=for-the-badge&labelColor=black&logo=kali&logoColor=3C873A)](#) [![SQL Badge](https://img.shields.io/badge/-SQL-e535ab?style=for-the-badge&labelColor=black&logo=sql&logoColor=e535ab)](#)
 
 <!---
 Kh11811/Kh11811 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
