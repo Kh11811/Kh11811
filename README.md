@@ -4,8 +4,8 @@
   <img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=FF0000&size=25&center=true&vCenter=true&width=600&height=100&lines=Hey!+It's+Khalil+Gabsi;++;Self-taught+AI+and+ML+Developer,;ICT-Engineer,;Love+to+learn+new+stuffs..<3" />
 </a>
 </p>
-
 # <b> Let's Connect..!</b><img src="https://github.com/0xAbdulKhalid/0xAbdulKhalid/raw/main/assets/mdImages/handshake.gif" width ="80">
+
 
 <a href="https://www.linkedin.com/in/khalil-gabsi-601b8834a" target="_blank">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge" />
