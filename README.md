@@ -20,7 +20,7 @@
 ## <img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2wr3ds3mg700bl&rid=giphy.gif" width ="25"><b> Skills</b>
 <br>
 
-[![Python Badge](https://img.shields.io/badge/-Python-61DBFB?style=for-the-badge&labelColor=black&logo=python&logoColor=61DBFB)](#)  [![C++ Badge](https://img.shields.io/badge/-C++-00599C?style=for-the-badge&labelColor=black&logo=c%2B%2B&logoColor=white)](#)  [![C Badge](https://img.shields.io/badge/-C-007acc?style=for-the-badge&labelColor=black&logo=c&logoColor=007acc)](#)  [![Kali Linux Badge](https://img.shields.io/badge/-Kali_Linux-557C89?style=for-the-badge&labelColor=black&logo=kali-linux&logoColor=white)](#)  [![SQL Badge]((https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white))](#)
+[![Python Badge](https://img.shields.io/badge/-Python-61DBFB?style=for-the-badge&labelColor=black&logo=python&logoColor=61DBFB)](#)  [![C++ Badge](https://img.shields.io/badge/-C++-00599C?style=for-the-badge&labelColor=black&logo=c%2B%2B&logoColor=white)](#)  [![C Badge](https://img.shields.io/badge/-C-007acc?style=for-the-badge&labelColor=black&logo=c&logoColor=007acc)](#)  [![Kali Linux Badge](https://img.shields.io/badge/-Kali_Linux-557C89?style=for-the-badge&labelColor=black&logo=kali-linux&logoColor=white)](#)  [![SQL Badge](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white)](#)
 
 
 
