@@ -8,11 +8,11 @@
 
 
 [![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/khalil-gabsi-601b8834a)
- 
+ [![Gmail Badge](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:khalilgabssi940@gmail.com)
 [![Outlook Badge](https://img.shields.io/badge/Microsoft_Outlook-0078D4?style=for-the-badge&logo=microsoft-outlook&logoColor=white)](mailto:khalil.gabsi@supcom.tn)
 
 
-![GitHub followers](https://img.shields.io/github/followers/kh11811?style=social)
+![GitHub followers](https://img.shields.io/github/followers/Kh11811?style=social)
 ![Github Page Visit Count](https://komarev.com/ghpvc/?username=Kh11811)
 <img src="https://img.shields.io/badge/Age-22-blue" />
 
