@@ -29,10 +29,8 @@
 
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Kh11811&show_icons=true&locale=en&layout=compact&langs_count=50&theme=algolia)
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=Kh11811&show_icons=true&theme=radical)
-[![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=Kh11811)](https://github.com/anuraghazra/github-readme-stats)
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=Kh11811&&theme=algolia" alt="Kh11811" /></p>
 
-![](https://github-readme-activity-graph.vercel.app/graph?username=AzizBenIsmail&theme=react)
+![](https://github-readme-activity-graph.vercel.app/graph?username=Kh11811&theme=react)
 
 <!---
 Kh11811/Kh11811 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
