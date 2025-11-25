@@ -30,6 +30,11 @@
 <!-- Github Stats   -->
 ## <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="35"><b> Github Stats </b>
 <img align="right" width=200px height=200px alt="side_sticker" src="https://media.giphy.com/media/TEnXkcsHrP4YedChhA/giphy.gif" />
+
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Kh11811&show_icons=true&locale=en&layout=compact&langs_count=50&theme=algolia)
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=Kh11811&show_icons=true&theme=radical)
+
+![](https://github-readme-activity-graph.vercel.app/graph?username=Kh11811&theme=react)
 ![](https://github-readme-activity-graph.vercel.app/graph?username=Kh11811&theme=react)
 ### ✍️ Random Dev Quote
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
