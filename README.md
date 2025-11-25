@@ -35,7 +35,7 @@
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=Kh11811&show_icons=true&theme=radical)
 
 ![](https://github-readme-activity-graph.vercel.app/graph?username=Kh11811&theme=react)
-![](https://github-readme-activity-graph.vercel.app/graph?username=Kh11811&theme=react)
+
 ### ✍️ Random Dev Quote
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"><br><br>
