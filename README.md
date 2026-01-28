@@ -1,7 +1,7 @@
 <h1 align="center"><b>Hey ,  </b><img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35"></h1>
 <p align="center">
  <a href="https://github.com/DenverCoder1/readme-typing-svg">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=FF0000&size=25&center=true&vCenter=true&width=600&height=100&lines=Hey!+It's+Khalil+Gabsi;Self-taught+AI+and+ML+Developer,;ICT-Engineer,;Interested+in+CyberSecurity,;Love+to+learn+new+stuffs..<3" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=FF0000&size=25&center=true&vCenter=true&width=600&height=100&lines=Hey!+It's+Khalil+Gabsi;Self-taught+CyberSecurity,;ICT-Engineer,;Interested+in+CyberSecurity,;Love+to+learn+new+stuffs..<3" />
 </a>
 </p>
 
@@ -24,7 +24,7 @@
 ## <img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2wr3ds3mg700bl&rid=giphy.gif" width ="25"><b> Skills</b>
 <br>
 
-[![Python Badge](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&labelColor=black&logo=python&logoColor=blue))](#)  [![C++ Badge](https://img.shields.io/badge/-C++-00599C?style=for-the-badge&labelColor=black&logo=c%2B%2B&logoColor=white)](#)  [![C Badge](https://img.shields.io/badge/-C-007acc?style=for-the-badge&labelColor=black&logo=c&logoColor=007acc)](#)  [![Kali Linux Badge](https://img.shields.io/badge/-Kali_Linux-557C89?style=for-the-badge&labelColor=black&logo=kali-linux&logoColor=white)](#)  [![SQL Badge](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white)](#)[![RedHat Badge](https://img.shields.io/badge/Red%20Hat-EE0000?style=for-the-badge&labelColor=black&logo=redhat&logoColor=white)](#)
+[![Python Badge](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&labelColor=black&logo=python&logoColor=blue))](#)  &logo=sqlite&logoColor=white)](#)[![RedHat Badge](https://img.shields.io/badge/Red%20Hat-EE0000?style=for-the-badge&labelColor=black&logo=redhat&logoColor=white)](#)
 
 
 <!-- Github Stats   -->
