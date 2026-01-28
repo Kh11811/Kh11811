@@ -24,7 +24,11 @@
 ## <img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2wr3ds3mg700bl&rid=giphy.gif" width ="25"><b> Skills</b>
 <br>
 
-[![Python Badge](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&labelColor=black&logo=python&logoColor=blue))](#)  &logo=sqlite&logoColor=white)](#)[![RedHat Badge](https://img.shields.io/badge/Red%20Hat-EE0000?style=for-the-badge&labelColor=black&logo=redhat&logoColor=white)](#)
+[![Python Badge](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&labelColor=black&logo=python&logoColor=blue)](#)
+[![SQLite Badge](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white)](#)
+[![RedHat Badge](https://img.shields.io/badge/Red%20Hat-EE0000?style=for-the-badge&labelColor=black&logo=redhat&logoColor=white)](#)
+[![Linux Badge](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&labelColor=black&logo=linux&logoColor=black)](#)
+
 
 
 <!-- Github Stats   -->
